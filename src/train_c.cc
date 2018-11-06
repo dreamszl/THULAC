@@ -11,7 +11,7 @@ using namespace thulac;
 int main (int argc,char **argv) {
     int iteration=15;
     Character separator='/';
-    int seg_only=false;
+    int seg_only=true;
     int bigram_threshold=1;
     static struct option long_options[] =
 		{

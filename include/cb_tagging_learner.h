@@ -207,7 +207,12 @@ void TaggingLearner::train(const char*training_file,
 	dm->save(dat_file);
     delete dm;
     std::cerr<<"DAT (double array TRIE) file \""<<dat_file<<"\" created\n";
-    
+
+    /*
+    for(int i=0;i<tag_indexer.list.size();i++){
+      std::cout<<tag_indexer.list[i]<<"\n";
+    }
+    */
     
     //model_file
     int l_size=tag_indexer.list.size();

@@ -221,12 +221,14 @@ void TaggingDecoder::init(
         if(label_info[i][0]==kPOC_B || label_info[i][0]==kPOC_S)continue;
         
         for(int j=0;j<=i;j++){
+            // Always true in segonly mode
             if((strcmp(label_info[i]+1,label_info[j]+1)==0)&&(label_info[j][0]==kPOC_B)){
                 if(label_looking_for[j]==NULL){
                     label_looking_for[j]=new int[2];
                     label_looking_for[j][0]=-1;label_looking_for[j][1]=-1;
                     tag_size++;
                 }
+                // simple in segonly mode (0,1-1)=1,(0,2-1)=2
                 label_looking_for[j][label_info[i][0]-'1']=i;
                 break;
             }

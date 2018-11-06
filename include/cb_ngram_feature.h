@@ -115,6 +115,7 @@ public:
             fprintf(stderr,"larger than max\n");
             return 1;
         }
+        // uni_bases[i] -> sequence[i-1], bi_bases[i] -> sequences[i-2:i]
         find_bases(dat_size,SENTENCE_BOUNDARY,SENTENCE_BOUNDARY,uni_bases[0],bi_bases[0]);
         find_bases(dat_size,SENTENCE_BOUNDARY,sequence[0],uni_bases[0],bi_bases[1]);
         for(int i=0;i+1<len;i++)
@@ -124,7 +125,10 @@ public:
         find_bases(dat_size,SENTENCE_BOUNDARY,SENTENCE_BOUNDARY,uni_bases[len+1],bi_bases[len+2]);
         int base=0;
         for(int i=0;i<len;i++){
+            // i-th character tag in the sequence
             int* value_offset=values+i*model->l_size;
+            // 49, 50, 51, 52 is the ascii for 1,2,3,4
+            // this is the postfix of the feature
             if((base=uni_bases[i+1])!=-1){
                 add_values(value_offset,base,49,NULL);
                 //check_values(value_offset,base,49,NULL);
@@ -195,6 +199,10 @@ private:
             value_offset[1]+=weight_offset[1];
             value_offset[2]+=weight_offset[2];
             value_offset[3]+=weight_offset[3];
+            /*
+            printf("%d,%d,%d,%d\n",
+                weight_offset[0], weight_offset[1], weight_offset[2], weight_offset[3]);
+                */
         }else{
             if(p_allowed_label){
                 while((allowed_label=(*(p_allowed_label++)))>=0){
@@ -243,6 +251,7 @@ private:
      * 找出以ch1 ch2为字符的dat的下标
      * */
     inline void find_bases(int dat_size,int ch1,int ch2,int& uni_base,int&bi_base){
+        // Convert halfwidth punc to fullwidth punc
         if(ch1>32 &&ch1<128)ch1+=65248;
         if(ch2>32 &&ch2<128)ch2+=65248;
         if(dat[ch1].check){

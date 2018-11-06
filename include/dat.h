@@ -8,8 +8,13 @@
 
 namespace thulac{
 
+// TRIE index
 class DAT{
 public:
+    // list type which use negative value as unused flag
+    // unused: base = -previous, check = -next
+    // used: base = 0, check = prefix character (c1 in p1 differ c1 in p2)
+    // used: base = children character space base (if have children)
     struct Entry{
         int base;
         int check;
@@ -141,9 +146,12 @@ public:
         register int base=0;
         for(size_t i=0;i<prefix.size();i++){
             ind=dat[ind].base+prefix[i];
+            // the pos of first "OOV" prefix character in prefix
+            // NOTE: base is always point to the previous character
             if((ind>=dat_size)||dat[ind].check!=base)return i;
             base=ind;
         }
+        // the pos of the prefix last word in dat array
         return -base;
     }
 
@@ -170,6 +178,7 @@ public:
  
     
 public:
+    // thought head=-real_head, tail=-real_tail
     int head;
     int tail;
     DATMaker(){
@@ -214,6 +223,7 @@ public:
         tail=-(old_size*2-1);
         //print();
     }
+    // remove the unused space in the array tail
     void shrink(){//thrink之后双向链表就不需要保持了
         int last=dat_size-1;
         while(dat[last].check<0)last--;
@@ -249,10 +259,12 @@ public:
                 for(int i=0;i<size;i++)use(base+offsets[i]);
                 return base;//got it and return it
             }
+            // if reached list tail
             if(dat[base].check==-dat_size)extends();
             base=-dat[base].check;
         }
     }
+    // put the next character in all the words with the prefix prefix into children array
     void gen_children(std::vector<KeyValue>& lexicon,int start,Word& prefix,std::vector<int>&children){
         children.clear();
         size_t l=prefix.size();
