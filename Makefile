@@ -4,21 +4,22 @@ src_dir=src
 bin_dir=.
 test_dir=test
 thulac=g++ -std=c++11 -O3 -march=native -I $(include_dir)
+pthread=-lpthread
 
 # all: $(bin_dir)/thulac_test $(bin_dir)/train_c $(bin_dir)/thulac
 all: $(bin_dir)/thulac $(bin_dir)/train_c $(bin_dir)/thulac_test $(bin_dir)/libthulac.so $(bin_dir)/test_case
 
 $(bin_dir)/thulac: $(src_dir)/thulac.cc $(include_dir)/*.h
-	$(thulac) $(src_dir)/thulac.cc -o $(bin_dir)/thulac
+	$(thulac) $(src_dir)/thulac.cc -o $(bin_dir)/thulac $(pthread)
 
 $(bin_dir)/train_c: $(src_dir)/train_c.cc $(include_dir)/*.h
-	$(thulac) -o $(bin_dir)/train_c $(src_dir)/train_c.cc
+	$(thulac) -o $(bin_dir)/train_c $(src_dir)/train_c.cc $(pthread)
 
 $(bin_dir)/test_case: $(test_dir)/test_case.cpp $(include_dir)/*.h
-	$(thulac) -o $(bin_dir)/test_case $(test_dir)/test_case.cpp
+	$(thulac) -o $(bin_dir)/test_case $(test_dir)/test_case.cpp $(pthread)
 
 $(bin_dir)/thulac_test: $(src_dir)/thulac_test.cc $(include_dir)/*.h
-	$(thulac) -o $(bin_dir)/thulac_test $(src_dir)/thulac_test.cc	
+	$(thulac) -o $(bin_dir)/thulac_test $(src_dir)/thulac_test.cc	 $(pthread)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
