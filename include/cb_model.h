@@ -54,6 +54,7 @@ public:
         int l_size=this->l_size;
         int f_size=this->f_size;
         for(int i=0;i<l_size*f_size;i++){
+            //std::cout<< this->fl_weights[i];
             this->fl_weights[i]=(int)
                     (
                      (
@@ -64,8 +65,10 @@ public:
                      *DEC+0.5
                      )
             ;
+            //std::cout<< "->" << this->fl_weights[i] << "\n";
         }
         for(int i=0;i<l_size*l_size;i++){
+            //std::cout<< this->ll_weights[i];
             this->ll_weights[i]=(int)
                     (
                         (
@@ -76,6 +79,7 @@ public:
                     *DEC+0.5
                     )
             ;
+            //std::cout<< "->" << this->ll_weights[i] << "\n";
         }
     }
     

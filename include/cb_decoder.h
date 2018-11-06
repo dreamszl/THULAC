@@ -55,7 +55,7 @@ inline int dp_decode(
         j=-1;
         int max_value=0;
         int has_max_value=0;
-	//为每一个节点分配当前具有最大值的标签
+	      //为每一个节点分配当前具有最大值的标签
         while((p_allowed_label?
                     ((j=(*(p_allowed_label++)))!=-1)://如果有指定，则按照列表来
                     ((++j)!=l_size))){//否则枚举
@@ -83,6 +83,10 @@ inline int dp_decode(
                     pre_alpha=alphas+node_id*l_size+k;//获得alpha(node_id,k)的得分
                     if(pre_alpha->node_id==-2)continue;//not reachable
                     score=pre_alpha->value+ll_weights[k*l_size+j];//score=alpha(node_id,k)+ll_weights(k,j)
+                    /*
+                    std::cout<<score<<","<<tmp->value<<"\n";
+                    getchar();
+                    */
                     if((tmp->node_id<0)||(score>tmp->value)){
                         tmp->value=score;
                         tmp->node_id=node_id;
@@ -92,6 +96,7 @@ inline int dp_decode(
             }
             tmp->value+=values[i*l_size+j];//加上本身的分数
             
+            // Notice that this type is not POC
             if((nodes[i].type==1)||(nodes[i].type==3))//如果第i个节点原来的type为1或3
                 tmp->node_id=-1;
             if(nodes[i].type>=2){//更新最大得分
@@ -103,6 +108,10 @@ inline int dp_decode(
             }
         }
     }
+    /*
+    std::cout<<best.node_id<<"------\n";
+    getchar();
+    */
     //find the path and label the nodes of it.
     tmp=&best;
     while(tmp->node_id>=0){

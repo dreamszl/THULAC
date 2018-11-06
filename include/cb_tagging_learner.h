@@ -313,6 +313,7 @@ void TaggingLearner::train(const char*training_file,
 
             
             //update
+            // positive updates equal to count the positive occurrence
             this->ngram_feature->update_weights(sequence,len,gold_standard,1,steps);
             this->ngram_feature->update_weights(sequence,len,result,-1,steps);
             for(int i=0;i<len-1;i++){

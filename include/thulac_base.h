@@ -69,6 +69,8 @@ void get_label_info(const char* filename, char** label_info, int** pocs_to_tags)
         label_info[ind]=str;
         int seg_ind=str[0]-'0';
         for(int j=0;j<16;j++){
+            // use the binary form of j to represent the 0,1,2,3
+            // which is kPOC_B, kPOC_M ...
             if((1<<seg_ind)&(j)){
                 poc_tags[j].push_back(ind);
             }

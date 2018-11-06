@@ -124,6 +124,7 @@ public:
         find_bases(dat_size,sequence[len-1],SENTENCE_BOUNDARY,uni_bases[len],bi_bases[len+1]);
         find_bases(dat_size,SENTENCE_BOUNDARY,SENTENCE_BOUNDARY,uni_bases[len+1],bi_bases[len+2]);
         int base=0;
+        // Compute feature->tag score for each position of the sequence
         for(int i=0;i<len;i++){
             // i-th character tag in the sequence
             int* value_offset=values+i*model->l_size;
@@ -191,6 +192,7 @@ private:
         if(ind>=dat_size||dat[ind].check!=base){
             return;
         }
+        // (base+del) feature pos in TRIE index
         int offset=dat[dat[base].base+del].base;
         int* weight_offset=model->fl_weights+offset*model->l_size;
         int allowed_label;

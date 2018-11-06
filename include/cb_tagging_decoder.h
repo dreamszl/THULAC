@@ -38,6 +38,7 @@ public:
 
     ///*解码用*/
     permm::Node* nodes;//只用来存储解码用的节点的拓扑结构
+    // score computed by feature
     int* values;//存各个节点的权重
     permm::Alpha_Beta* alphas;//前向算法数据
     permm::Alpha_Beta* betas;//后向算法数据
@@ -251,6 +252,8 @@ void TaggingDecoder::init(
 }
 
 void TaggingDecoder::dp(){//调用cb_decoder.h里的函数
+    // use the binary form of '9' and '12' to represent the 0,1,2,3
+    // which is kPOC_B, kPOC_M ...
     if(allowed_label_lists[0]==NULL){
         allowed_label_lists[0]=pocs_to_tags[9];
     }
@@ -278,6 +281,7 @@ void TaggingDecoder::dp(){//调用cb_decoder.h里的函数
 }
 
 
+// set the tag transfer matrix between two adjacent position
 void TaggingDecoder::set_label_trans(){//不同位置可能出现的标签种类
     int l_size=this->model->l_size;
     std::list<int> *pre_labels;
